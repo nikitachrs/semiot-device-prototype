@@ -8,6 +8,6 @@ Based on [esp8266 Arduino IDE libraries](https://github.com/esp8266/Arduino)
 
 Сборка модуля:
 
-![photo example](https://github.com/semiotproject/semiot-device-prototype/raw/master/doc/mcs-dev-prototype/example.jpg)
+![photo example](https://raw.githubusercontent.com/semiotproject/semiot-device-prototype/issue-19/doc/mcs-dev-prototype/example.jpg)
 
-![bb scheme](https://github.com/semiotproject/semiot-device-prototype/raw/master/doc/mcs-dev-prototype/semiot-device-mcs_bb.png)
+![bb scheme](https://raw.githubusercontent.com/semiotproject/semiot-device-prototype/issue-19/doc/mcs-dev-prototype/semiot-device-mcs_bb.png)
