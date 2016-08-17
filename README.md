@@ -19,3 +19,7 @@ Based on [esp8266 Arduino IDE libraries](https://github.com/esp8266/Arduino)
 + get: `smcpctl get "coap://dev_ip/.well-known/core"`
 + put: `smcpctl put -i "coap://dev_ip/led1" "{\"@context\":\"/config/context\",\"pwm-value\":\"50\"}"`, где pwm-value устанавливаем в 50
 + observe: `smcpctl observe "coap://dev_ip/tick1"`
+
+и [minicom](http://alioth.debian.org/projects/minicom/):
+Просмотр вывода из Serial: `minicom -D /dev/ttyUSB0 -b 115200`
+Выход: `Ctrl+A`, `Z`, `Q`
