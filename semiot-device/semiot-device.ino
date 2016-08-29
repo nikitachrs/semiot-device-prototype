@@ -35,7 +35,7 @@ WellKnownCoreResource wnkRes(&coap);
 
 long tick;
 const int tickPin = D5;
-TickResource tickRes("tick",&coap);
+TickResource tickRes("tick1",&coap);
 LabelResource tickSchema(tickSchemaPath,tickSchemaText,&coap);
 void incTick() {
     tickRes.incTick();
