@@ -1,9 +1,9 @@
 #!/bin/bash
-make -f semiot-device.mk
+make -f semiot-device-wemos-d1-mini.mk
 while true; do
     read -p "Upload?" yn
     case $yn in
-        [Yy]* ) make -f semiot-device.mk upload; break;;
+        [Yy]* ) make -f semiot-device-wemos-d1-mini.mk upload; break;;
         [Nn]* ) exit;;
         * ) echo "Please answer yes or no.";;
     esac

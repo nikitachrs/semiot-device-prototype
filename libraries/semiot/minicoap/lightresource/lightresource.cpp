@@ -23,7 +23,7 @@ LightResource::LightResource(const char *lightName, unsigned int connectedPin, b
 int LightResource::getMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt)
 {
     updateLightJs();
-    return getServer()->coap_make_response(inpkt, outpkt, (uint8_t*)lightJs, strlen(lightJs), COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_APPLICATION_OCTECT_STREAM);
+    return getServer()->coap_make_response(inpkt, outpkt, (uint8_t*)lightJs, strlen(lightJs), COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_APPLICATION_JSON);
 }
 
 int LightResource::putMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt)

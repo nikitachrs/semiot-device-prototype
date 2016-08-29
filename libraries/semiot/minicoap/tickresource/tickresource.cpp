@@ -22,7 +22,7 @@ TickResource::TickResource(const char *tickName, MiniCoAP* coapServer):CoAPResou
 int TickResource::getMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt)
 {
     updateTickJs();
-    return getServer()->coap_make_response(inpkt, outpkt, (uint8_t*)tickJs, strlen(tickJs), COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_APPLICATION_OCTECT_STREAM);
+    return getServer()->coap_make_response(inpkt, outpkt, (uint8_t*)tickJs, strlen(tickJs), COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_APPLICATION_JSON);
 }
 
 int TickResource::putMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt)
