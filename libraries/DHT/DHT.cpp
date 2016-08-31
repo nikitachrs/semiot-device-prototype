@@ -8,20 +8,21 @@ written by Adafruit Industries
 
 #define MIN_INTERVAL 2000
 
-DHT::DHT(uint8_t pin, uint8_t type, uint8_t count) {
-  _pin = pin;
-  _type = type;
-  #ifdef __AVR
-    _bit = digitalPinToBitMask(pin);
-    _port = digitalPinToPort(pin);
-  #endif
-  _maxcycles = microsecondsToClockCycles(1000);  // 1 millisecond timeout for
-                                                 // reading pulses from DHT sensor.
-  // Note that count is now ignored as the DHT reading algorithm adjusts itself
-  // basd on the speed of the processor.
+DHT::DHT(void) {
 }
 
-void DHT::begin(void) {
+void DHT::begin(uint8_t pin, uint8_t type) {
+    _pin = pin;
+    _type = type;
+    #ifdef __AVR
+      _bit = digitalPinToBitMask(pin);
+      _port = digitalPinToPort(pin);
+    #endif
+    _maxcycles = microsecondsToClockCycles(1000);  // 1 millisecond timeout for
+                                                   // reading pulses from DHT sensor.
+    // Note that count is now ignored as the DHT reading algorithm adjusts itself
+    // based on the speed of the processor.
+
   // set up the pins!
   pinMode(_pin, INPUT_PULLUP);
   // Using this value makes sure that millis() - lastreadtime will be

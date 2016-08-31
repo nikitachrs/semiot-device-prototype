@@ -1,11 +1,11 @@
 #include <ESP8266WiFi.h>
-#include <Ticker.h>
 #include <string.h>
 #include "minicoap.h"
 #include "wellknowncoreresource.h"
 #include "configresource.h"
 #include "labelresource.h"
 #include "dhtresource.h"
+#include "locationresource.h"
 
 const int sleep_interval = 1500;
 
@@ -20,25 +20,31 @@ const char configSchemaPath[] = "\/config\/schema";
 
 const char configContextText[] = "{\"@context\":{\"xsd\":\"http:\/\/www.w3.org\/2001\/XMLSchema#\",\"rdfs\":\"http:\/\/www.w3.org\/2000\/01\/rdf-schema#\",\"@vocab\":\"\/config\/schema\"}}";
 const char configSchemaText[] = "{\"@context\":\"\/config\/context\",\"wifi-name\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Wi-Fi Network Name\"},\"wifi-password\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Wi-Fi Password\"}}";
-// const char led1SchemaText[] = "{\"@context\":\"\/config\/context\",\"pwm-value\"
 
 
 ConfigResource confRes(&coap);
 LabelResource configContext(configContextPath,configContextText,&coap);
 LabelResource configSchema(configSchemaPath,configSchemaText,&coap);
 
-const char wnkPublicAnswer[] = "<\/led1>;ct=50,<\/led1\/schema>;ct=50,<\/tick1>;ct=50,<\/tick1\/schema>;ct=50";
-const char wnkLocalAnswer[] = "<\/led1>;ct=50,<\/led1\/schema>;ct=50,<\/tick1>;ct=50,<\/tick1\/schema>;ct=50,<\/config>;ct=50,<\/config\/schema>;ct=50,<\/config\/context>;ct=50";
+const char wnkPublicAnswer[] = "<\/dht1>;ct=50,<\/dht1\/schema>;ct=50,<\/location>;ct=50,<\/location\/schema>;ct=50";
+const char wnkLocalAnswer[] = "<\/dht1>;ct=50,<\/dht1\/schema>;ct=50,<\/location>;ct=50,<\/location\/schema>;ct=50,<\/config>;ct=50,<\/config\/schema>;ct=50,<\/config\/context>;ct=50";
 WellKnownCoreResource wnkRes(&coap);
 
-const int dht1Pin = D3;
+const char dht1SchemaPath[] = "\/config\/schema";
+const char dht1SchemaText[] = "{\"@context\":\"\/config\/context\",\"temperature-value\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Temperature value from 21 to 23 Celsius\"},\"humidity-value\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Humidity value in percent\"}}";
+
+const int dht1Pin = D2;
 const int dht1Type = DHT22;
-const char dht1Name[] = "led1";
+const char dht1Name[] = "dht1";
 DHTResource dht1(dht1Name,dht1Pin,dht1Type,&coap);
 // TODO: dht context
 LabelResource dht1Schema(dht1SchemaPath,dht1SchemaText,&coap);
 
-// TODO: location resource
+const char locationSchemaPath[] = "\/config\/schema";
+const char locationSchemaText[] = "{\"@context\":\"\/location\/context\",\"room-number\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Room number\"}}";
+const char locationName[] = "location";
+LocationResource locationRes(locationName,&coap);
+LabelResource locationSchema(locationSchemaPath,locationSchemaText,&coap);
 
 const int buttonPin = D7;
 const int highOutPin = D6;
@@ -120,7 +126,8 @@ void loop() {
         coap.answerForObservations();
         coap.answerForIncomingRequest();
     }
-    // todo: sleep for 1.5 sec without disconnection
+    // sleep for 1.5 sec without disconnection
+    // should save the power
     delay(sleep_interval);
 }
 
