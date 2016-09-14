@@ -14,7 +14,7 @@ public:
     virtual int deleteMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt);
     coap_endpoint_path_t resourcePath; // FIXME: was static const
     bool resourceChanged = true;
-    char coreAttr[10]; // TODO: define max value
+    char coreAttr[2]; // TODO: define max value
     MiniCoAP *getServer();
 private:
     MiniCoAP *server;

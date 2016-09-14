@@ -3,9 +3,10 @@
 
 #define LED
 
+//#define DEBUG
 // undef OBS_SUPPORT to remove subsribtions support
 #define OBS_SUPPORT
-#define MAX_ENDPOINTS_COUNT 15 // super hard to keep it actual and not forget it due to std: func
+#define MAX_ENDPOINTS_COUNT 16 // super hard to keep it actual and not forget it due to std: func
 #define MAX_OBSERVATIONS_COUNT 20 // Map: observer + resource
 // FIXME: get rid of MAX_SEGMENTS
 #define MAX_SEGMENTS 2  // 2 = /foo/bar, 3 = /foo/bar/baz
@@ -184,7 +185,7 @@ typedef struct
 
 const coap_endpoint_path_t path_well_known_core = {2, {".well-known", "core"}};
 
-#ifdef OBS_SUPPORT
+
     typedef struct
     {
         // TODO: different for platforms
@@ -196,7 +197,7 @@ const coap_endpoint_path_t path_well_known_core = {2, {".well-known", "core"}};
         #endif // ARDUINO
         bool available = true;
     } coap_client_socket_t;
-
+    #ifdef OBS_SUPPORT
     typedef struct
     {
         coap_client_socket_t cliaddr;

@@ -302,11 +302,15 @@ int MiniCoAP::answer(coap_packet_t* pkt)
 int MiniCoAP::coap_parse(coap_packet_t *pkt, const uint8_t *buf, size_t buflen)
 {
     int rc;
-    // coap_dump(buf, buflen, false);
+#ifdef DEBUG
+    coap_dump(buf, buflen, false);
+#endif
     if (0 != (rc = coap_parseHeader(&pkt->hdr, buf, buflen))) {
         return rc;
     }
-    // coap_dumpHeader(&hdr);
+#ifdef DEBUG
+    coap_dumpHeader(&pkt->hdr);
+#endif
     if (0 != (rc = coap_parseToken(&pkt->tok, &pkt->hdr, buf, buflen))) {
         return rc;
     }
@@ -314,7 +318,9 @@ int MiniCoAP::coap_parse(coap_packet_t *pkt, const uint8_t *buf, size_t buflen)
     if (0 != (rc = coap_parseOptionsAndPayload(pkt->opts, &(pkt->numopts), &(pkt->payload), &pkt->hdr, buf, buflen))) {
         return rc;
     }
-    // coap_dumpOptions(opts, numopt);
+#ifdef DEBUG
+coap_dumpOptions(pkt->opts, pkt->numopts);
+#endif
     return 0;
 }
 
@@ -360,7 +366,7 @@ int MiniCoAP::coap_make_response(const coap_packet_t *inpkt, coap_packet_t *outp
             removeObserver();
         }
     }
-
+    
     outpkt->opts[obs].num = COAP_OPTION_CONTENT_FORMAT;
     outpkt->opts[obs].buf.p = scratch_buf.p;
     if (scratch_buf.len < 2)
@@ -545,6 +551,10 @@ int MiniCoAP::coap_compare_uri_path_opt(const coap_packet_t *inpkt, const coap_e
 int MiniCoAP::coap_handle_req(const coap_packet_t *inpkt, coap_packet_t *outpkt)
 {
     coap_endpoint_t *ep = &endpoints[0];
+#ifdef DEBUG
+    printf("handling ep\n");
+    coap_dumpPacket((coap_packet_t *)inpkt);
+#endif DEBUG
 
     while(NULL != ep->handler)
     {
@@ -760,7 +770,5 @@ void MiniCoAP::coap_dumpPacket(coap_packet_t *pkt)
     coap_dump(pkt->payload.p, pkt->payload.len, true);
     printf("\n");
 }
-
 #endif // DEBUG
-
 

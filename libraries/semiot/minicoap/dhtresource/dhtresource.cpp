@@ -6,8 +6,8 @@
 
 DHTResource::DHTResource(const char *dhtName, uint8_t pin, uint8_t type, MiniCoAP* coapServer):CoAPResource(coapServer)
 {
-    dht.begin(pin,type);
     resourcePath = {1,{dhtName}};
+    dht.begin(pin,type);
     updateDHT();
 }
 
@@ -21,11 +21,11 @@ void DHTResource::updateDHTJs()
 {
     memset(dhtJs,0,100); // FIXME: magic number
     // fixme: via json
-    strcpy(dhtJs,"\{\"@context\":\"\/config\/context\",\"temperature-value\":\"");
+    strcpy(dhtJs,"{\"@context\":\"/config/context\",\"temperature-value\":\"");
     strcat(dhtJs,String(temperature,2).c_str());
     strcat(dhtJs,"\",\"humidity-value\":\"");
     strcat(dhtJs,String(humidity,2).c_str());
-    strcat(dhtJs,"\"\}");
+    strcat(dhtJs,"\"}");
 }
 
 void DHTResource::updateDHT()

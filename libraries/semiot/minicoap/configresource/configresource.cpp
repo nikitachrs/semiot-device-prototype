@@ -84,9 +84,9 @@ void ConfigResource::updateConfigJs()
     Serial.println(sta_psk);
     memset(configjs,0,MAXRESPLEN);
     // fixme: via json
-    strcpy(configjs,"\{\"@context\":\"\/config\/context\",\"wifi-name\":\"");
+    strcpy(configjs,"{\"@context\":\"/config/context\",\"wifi-name\":\"");
     strcat(configjs,sta_ssid);
     strcat(configjs,"\",\"wifi-password\":\"");
     strcat(configjs,sta_psk);
-    strcat(configjs,"\"\}");
+    strcat(configjs,"\"}");
 }

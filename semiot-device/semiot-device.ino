@@ -13,23 +13,23 @@ const char numberOfSTAAttempts = 23; // about 10 sec
 
 MiniCoAP coap;
 
-const char configContextPath[] = "\/config\/context";
-const char configSchemaPath[] = "\/config\/schema";
-const char led1SchemaPath[] = "\/led1\/schema";
-const char tickSchemaPath[] = "\/tick1\/schema";
+const char configContextPath[] = "/config/context";
+const char configSchemaPath[] = "/config/schema";
+const char led1SchemaPath[] = "/led1/schema";
+const char tickSchemaPath[] = "/tick1/schema";
 
-const char configContextText[] = "{\"@context\":{\"xsd\":\"http:\/\/www.w3.org\/2001\/XMLSchema#\",\"rdfs\":\"http:\/\/www.w3.org\/2000\/01\/rdf-schema#\",\"@vocab\":\"\/config\/schema\"}}";
-const char configSchemaText[] = "{\"@context\":\"\/config\/context\",\"wifi-name\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Wi-Fi Network Name\"},\"wifi-password\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Wi-Fi Password\"}}";
-const char led1SchemaText[] = "{\"@context\":\"\/config\/context\",\"pwm-value\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"PWM Brightness value from 0 to 100\"}}";
-const char tickSchemaText[] = "{\"@context\":\"\/config\/context\",\"tick-value\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Impulse counter\"}}";
+const char configContextText[] = "{\"@context\":{\"xsd\":\"http://www.w3.org/2001/XMLSchema#\",\"rdfs\":\"http://www.w3.org/2000/01/rdf-schema#\",\"@vocab\":\"/config/schema\"}}";
+const char configSchemaText[] = "{\"@context\":\"/config/context\",\"wifi-name\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Wi-Fi Network Name\"},\"wifi-password\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Wi-Fi Password\"}}";
+const char led1SchemaText[] = "{\"@context\":\"/config/context\",\"pwm-value\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"PWM Brightness value from 0 to 100\"}}";
+const char tickSchemaText[] = "{\"@context\":\"/config/context\",\"tick-value\":{\"@type\":\"xsd:string\",\"rdfs:label\":\"Impulse counter\"}}";
 
 
 ConfigResource confRes(&coap);
 LabelResource configContext(configContextPath,configContextText,&coap);
 LabelResource configSchema(configSchemaPath,configSchemaText,&coap);
 
-const char wnkPublicAnswer[] = "<\/led1>;ct=50,<\/led1\/schema>;ct=50,<\/tick1>;ct=50,<\/tick1\/schema>;ct=50";
-const char wnkLocalAnswer[] = "<\/led1>;ct=50,<\/led1\/schema>;ct=50,<\/tick1>;ct=50,<\/tick1\/schema>;ct=50,<\/config>;ct=50,<\/config\/schema>;ct=50,<\/config\/context>;ct=50";
+const char wnkPublicAnswer[] = "</led1>;ct=50,</led1/schema>;ct=50,</tick1>;ct=50,</tick1/schema>;ct=50";
+const char wnkLocalAnswer[] = "</led1>;ct=50,</led1/schema>;ct=50,</tick1>;ct=50,</tick1/schema>;ct=50,</config>;ct=50,</config/schema>;ct=50,</config/context>;ct=50";
 WellKnownCoreResource wnkRes(&coap);
 
 
@@ -46,15 +46,15 @@ const char led1Name[] = "led1";
 LightResource led1(led1Name,led1Pin,true,&coap);
 LabelResource led1Schema(led1SchemaPath,led1SchemaText,&coap);
 
-const int buttonPin = D7;
-const int highOutPin = D6;
-const int staLedPin = D1;
-const int apLedPin = D2;
+const int buttonPin = 4;
+const int highOutPin = 5;
+// const int staLedPin = 12;
+// const int apLedPin = 13;
 bool buttonPressed, configured;
 
 bool setAP() {
-    analogWrite(staLedPin,0);
-    analogWrite(apLedPin,PWMRANGE/4);
+    // analogWrite(staLedPin,0);
+    // analogWrite(apLedPin,PWMRANGE/4);
     WiFi.mode(WIFI_AP);
     WiFi.softAP(ap_ssid, ap_password);
     IPAddress myIP = WiFi.softAPIP();
@@ -70,8 +70,8 @@ bool setAP() {
 
 bool setSTA() {
     // FIXME: not inf
-    analogWrite(apLedPin,0);
-    analogWrite(staLedPin,PWMRANGE/4);
+    // analogWrite(apLedPin,0);
+    // analogWrite(staLedPin,PWMRANGE/4);
     WiFi.mode(WIFI_STA);
     Serial.print("Connecting STA");
     WiFi.begin(confRes.SSID(),confRes.psk());
@@ -88,7 +88,7 @@ bool setSTA() {
     Serial.println("WiFi connected");
     Serial.println("IP address: ");
     Serial.println(WiFi.localIP());
-    analogWrite(staLedPin,PWMRANGE);
+    // analogWrite(staLedPin,PWMRANGE);
     configured=true;
     return true; // FIXME
 }
@@ -99,8 +99,8 @@ void setup() {
     digitalWrite(highOutPin,HIGH);
     pinMode(buttonPin,INPUT);
     pinMode(tickPin,INPUT);
-    pinMode(apLedPin,OUTPUT);
-    pinMode(staLedPin,OUTPUT);
+    // pinMode(apLedPin,OUTPUT);
+    // pinMode(staLedPin,OUTPUT);
     confRes.setSTA(WiFi.SSID().c_str(),WiFi.psk().c_str());
     coap.begin();
     Serial.println("Started");
@@ -128,4 +128,3 @@ void loop() {
         coap.answerForIncomingRequest();
     }
 }
-

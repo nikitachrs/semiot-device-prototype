@@ -3,9 +3,8 @@
 
 LabelResource::LabelResource(const char *path, const char *label, MiniCoAP *coapServer):CoAPResource(coapServer)
 {
-    memset(&_label,0,sizeof(_label));
-    strcpy(_label,label);
-    // FIXME: real parse
+    _label = label;
+    // FIXME: BIG PROBLEM
     switch (strlen(path)) {
     case 15:
         resourcePath = {2, {"config", "context"}};
@@ -14,10 +13,10 @@ LabelResource::LabelResource(const char *path, const char *label, MiniCoAP *coap
         resourcePath = {2, {"config", "schema"}};
         break;
     case 12:
-        resourcePath = {2, {"led1", "schema"}};
+        resourcePath = {2, {"dht1", "schema"}};
         break;
-    case 13:
-        resourcePath = {2, {"tick1", "schema"}};
+    case 16:
+        resourcePath = {2, {"location", "schema"}};
         break;
     default:
         resourcePath = {1, {"error"}};
@@ -28,7 +27,7 @@ LabelResource::LabelResource(const char *path, const char *label, MiniCoAP *coap
 
 int LabelResource::getMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt)
 {
-    return getServer()->coap_make_response(inpkt, outpkt, (uint8_t *)&_label, strlen(_label), COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_APPLICATION_JSON);
+    return getServer()->coap_make_response(inpkt, outpkt, (uint8_t *)_label, strlen(_label), COAP_RSPCODE_CONTENT, COAP_CONTENTTYPE_APPLICATION_JSON);
 }
 
 //int LabelResource::putMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt)

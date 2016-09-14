@@ -49,9 +49,9 @@ void LocationResource::updateNumberJs()
 {
     memset(roomJs,0,100); // FIXME: magic number
     // fixme: via json
-    strcpy(roomJs,"\{\"@context\":\"\/config\/context\",\"room-number\":\"");
+    strcpy(roomJs,"{\"@context\":\"/config/context\",\"room-number\":\"");
     strcat(roomJs,String(roomNumber,DEC).c_str());
-    strcat(roomJs,"\"\}");
+    strcat(roomJs,"\"}");
 }
 
 void LocationResource::setNumber(int number)

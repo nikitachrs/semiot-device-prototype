@@ -10,7 +10,7 @@ public:
     int getMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt);
     // int putMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt);
 private:
-    char _label[170]; // FIXME: magic number
+    const char *_label;
 };
 
 #endif // LABELRESOURCE_H

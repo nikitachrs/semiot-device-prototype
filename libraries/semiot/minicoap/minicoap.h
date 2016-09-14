@@ -12,8 +12,8 @@ public:
     int addEndpoint(coap_method_t method, coap_endpoint_func handler, const coap_endpoint_path_t *path, const char *core_attr = NULL, bool *obs_changed = NULL);
     void answerForIncomingRequest();
     void buildWellKnownCoreString(char *dst, ssize_t len);
-    coap_client_socket_t getCurrentSocket();
 #ifdef OBS_SUPPORT
+    coap_client_socket_t getCurrentSocket();
     void answerForObservations();
 #endif // OBS_SUPPORT
 
