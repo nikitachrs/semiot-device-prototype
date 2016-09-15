@@ -7,15 +7,14 @@
 #include "dhtresource.h"
 #include "locationresource.h"
 
+// TODO: device name
+
 const int sleep_interval = 1500;
 
-const char *ap_ssid = "regularnetwork";
-const char *ap_password = "changeme";
 const char numberOfSTAAttempts = 23; // about 10 sec
 
 MiniCoAP coap;
 
-const char testAnswer[] = "test answer";
 const char wnkPublicAnswer[] = "</dht1>;ct=50,</dht1/schema>;ct=50,</location>;ct=50,</location/schema>;ct=50";
 const char wnkLocalAnswer[] = "</dht1>;ct=50,</dht1/schema>;ct=50,</location>;ct=50,</location/schema>;ct=50,</config>;ct=50,</config/schema>;ct=50,</config/context>;ct=50";
 WellKnownCoreResource wnkRes(&coap);
@@ -59,7 +58,7 @@ bool setAP() {
     analogWrite(staLedPin,0);
     analogWrite(apLedPin,PWMRANGE/4);
     WiFi.mode(WIFI_AP);
-    WiFi.softAP(ap_ssid, ap_password);
+    WiFi.softAP(confRes.AP_SSID(), confRes.AP_PSK());
     IPAddress myIP = WiFi.softAPIP();
 #ifdef DEBUG
     Serial.print("AP IP address: ");
@@ -74,15 +73,15 @@ bool setAP() {
 }
 
 bool setSTA() {
-    // FIXME: not inf
     analogWrite(apLedPin,0);
     analogWrite(staLedPin,PWMRANGE/4);
     WiFi.mode(WIFI_STA);
 #ifdef DEBUG
     Serial.print("Connecting STA");
+    Serial.print(confRes.SSID());
+    Serial.println(confRes.psk());
 #endif
-    WiFi.begin("ISST","");
-    //1  WiFi.begin(confRes.SSID(),confRes.psk());
+    WiFi.begin(confRes.SSID(),confRes.psk());
     char a = 0;
     while (WiFi.status() != WL_CONNECTED) {
         delay(500);
@@ -91,7 +90,8 @@ bool setSTA() {
 #endif
         a++;
         if (a>numberOfSTAAttempts) {
-            break;
+            analogWrite(staLedPin,0);
+            return false;
         }
     }
 #ifdef DEBUG
@@ -102,7 +102,7 @@ bool setSTA() {
 #endif
     analogWrite(staLedPin,PWMRANGE);
     configured=true;
-    return true; // FIXME
+    return true;
 }
 
 void setup() {
@@ -115,7 +115,6 @@ void setup() {
     pinMode(apLedPin,OUTPUT);
     pinMode(staLedPin,OUTPUT);
     confRes.setSTA(WiFi.SSID().c_str(),WiFi.psk().c_str());
-    wnkRes.setAnswer(testAnswer);
     coap.begin();
 #ifdef DEBUG
     Serial.println("Started");

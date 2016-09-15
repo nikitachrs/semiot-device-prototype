@@ -19,13 +19,17 @@ public:
     int putMethod(const coap_packet_t *inpkt, coap_packet_t *outpkt);
     const char* SSID();
     const char* psk();
+    const char* AP_SSID();
+    const char* AP_PSK();
     void setSTA(const char* ssid, const char* pass);
 private:
     char configjs[MAXRESPLEN];
-    static const char ssidMaxSize = WL_SSID_MAX_LENGTH+1;
+    static const char ssidMaxSize = WL_SSID_MAX_LENGTH+1; // SMT_0000
     static const char pskMaxSize = WL_WPA_KEY_MAX_LENGTH+1;
     char sta_ssid[ssidMaxSize];
     char sta_psk[pskMaxSize];
+    char ap_ssid[ssidMaxSize];
+    char ap_psk[pskMaxSize];
     void updateConfigJs();
 };
 

@@ -30,9 +30,10 @@ void DHTResource::updateDHTJs()
 
 void DHTResource::updateDHT()
 {
-    float h = dht.readHumidity();
+    // FIXME:
+    float h = 63; // dht.readHumidity();
     // Read temperature as Celsius (the default)
-    float t = dht.readTemperature();
+    float t = 18; // dht.readTemperature();
     if ((t!=temperature) || (h!=humidity)) {
         humidity = h;
         temperature = t;

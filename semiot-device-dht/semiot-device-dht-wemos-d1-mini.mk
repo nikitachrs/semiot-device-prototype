@@ -26,6 +26,7 @@ LIBS ?= $(ESP_LIBS)/Wire \
         $(ESP_LIBS)/ESP8266WiFi \
         $(ESP_LIBS)/ESP8266mDNS \
         $(ESP_LIBS)/ESP8266WebServer \
+				$(ESP_LIBS)/Hash \
         $(USER_LIBS)/ArduinoJson \
         $(USER_LIBS)/DHT \
         $(USER_LIBS)/semiot/minicoap

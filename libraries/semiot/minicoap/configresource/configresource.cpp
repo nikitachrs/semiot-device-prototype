@@ -2,10 +2,17 @@
 #include <string.h>
 #ifdef ARDUINO
 #include <ESP8266WiFi.h>
+#include <Hash.h>
 #endif // ARDUINO
 
 ConfigResource::ConfigResource(MiniCoAP *coapServer):CoAPResource(coapServer)
 {
+    memset(ap_ssid,0,pskMaxSize);
+    memset(ap_psk,0,pskMaxSize);
+    strcpy(ap_ssid,
+        String(String("SMT_")+sha1(WiFi.macAddress()).substring(0,4)).c_str()); // ;
+    strcpy(ap_psk,"semiotproject");
+
     resourcePath = {1,{"config"}};
 }
 
@@ -67,6 +74,16 @@ const char *ConfigResource::SSID()
 const char *ConfigResource::psk()
 {
     return sta_psk;
+}
+
+const char *ConfigResource::AP_SSID()
+{
+    return ap_ssid;
+}
+
+const char *ConfigResource::AP_PSK()
+{
+    return ap_psk;
 }
 
 void ConfigResource::setSTA(const char *ssid, const char *pass)

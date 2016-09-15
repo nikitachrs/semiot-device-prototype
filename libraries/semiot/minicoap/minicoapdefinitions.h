@@ -3,7 +3,7 @@
 
 #define LED
 
-//#define DEBUG
+// #define DEBUG
 // undef OBS_SUPPORT to remove subsribtions support
 #define OBS_SUPPORT
 #define MAX_ENDPOINTS_COUNT 16 // super hard to keep it actual and not forget it due to std: func
@@ -94,7 +94,8 @@ typedef enum
     COAP_OPTION_ACCEPT = 17,
     COAP_OPTION_LOCATION_QUERY = 20,
     COAP_OPTION_PROXY_URI = 35,
-    COAP_OPTION_PROXY_SCHEME = 39
+    COAP_OPTION_PROXY_SCHEME = 39,
+    COAP_OPTION_AUTHORIZATION = 40
 } coap_option_num_t;
 
 //http://tools.ietf.org/html/rfc7252#section-12.1.1

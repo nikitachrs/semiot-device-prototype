@@ -2,3 +2,4 @@ build/*
 *.user
 *.directory
 back/*
+*.gch
