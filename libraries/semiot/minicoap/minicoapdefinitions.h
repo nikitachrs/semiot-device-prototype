@@ -3,7 +3,7 @@
 
 #define LED
 
-// #define DEBUG
+#define DEBUG
 // undef OBS_SUPPORT to remove subsribtions support
 #define OBS_SUPPORT
 #define MAX_ENDPOINTS_COUNT 16 // super hard to keep it actual and not forget it due to std: func

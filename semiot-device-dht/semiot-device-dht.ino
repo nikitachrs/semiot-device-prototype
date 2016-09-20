@@ -6,6 +6,7 @@
 #include "labelresource.h"
 #include "dhtresource.h"
 #include "locationresource.h"
+#include "docresource.h"
 
 // TODO: device name
 
@@ -14,6 +15,8 @@ const int sleep_interval = 1500;
 const char numberOfSTAAttempts = 23; // about 10 sec
 
 MiniCoAP coap;
+
+DocResource docRes(&coap);
 
 const char wnkPublicAnswer[] = "</dht1>;ct=50,</dht1/schema>;ct=50,</location>;ct=50,</location/schema>;ct=50";
 const char wnkLocalAnswer[] = "</dht1>;ct=50,</dht1/schema>;ct=50,</location>;ct=50,</location/schema>;ct=50,</config>;ct=50,</config/schema>;ct=50,</config/context>;ct=50";
